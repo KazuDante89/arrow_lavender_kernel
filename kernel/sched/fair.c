@@ -3636,7 +3636,12 @@ update_cfs_rq_load_avg(u64 now, struct cfs_rq *cfs_rq, bool update_freq)
 	return 0;
 }
 
-int update_rt_rq_load_avg(u64 now, int cpu, struct rt_rq *rt_rq, int running)
+#define UPDATE_TG	0x0
+#define SKIP_AGE_LOAD	0x0
+#define SKIP_CPUFREQ	0x3
+
+static inline int
+update_cfs_rq_load_avg(u64 now, struct cfs_rq *cfs_rq, bool update_freq)
 {
 	return 0;
 }
@@ -5210,12 +5215,7 @@ static void dequeue_task_fair(struct rq *rq, struct task_struct *p, int flags)
 		if (cfs_rq_throttled(cfs_rq))
 			break;
 
-		update_flags = UPDATE_TG;
-
-		if (flags & DEQUEUE_IDLE)
-			update_flags |= SKIP_CPUFREQ;
-
-		update_load_avg(se, update_flags);
+		update_load_avg(se, UPDATE_TG | (flags & DEQUEUE_IDLE));
 		update_cfs_shares(se);
 	}
 
@@ -7408,7 +7408,7 @@ select_task_rq_fair(struct task_struct *p, int prev_cpu, int sd_flag, int wake_f
 
 		if (sysctl_sched_sync_hint_enable && sync &&
 				cpumask_test_cpu(cpu, tsk_cpus_allowed(p)) &&
-				!_wake_cap && (cpu_rq(cpu)->nr_running < 2) && 
+				!_wake_cap && (cpu_rq(cpu)->nr_running < 2) &&
 				cpu_is_in_target_set(p, cpu))
 				return cpu;
 
@@ -7421,7 +7421,7 @@ select_task_rq_fair(struct task_struct *p, int prev_cpu, int sd_flag, int wake_f
 	rcu_read_lock();
 	sd = rcu_dereference(cpu_rq(prev_cpu)->sd);
 	if (energy_aware() && sd && !sd_overutilized(sd) &&
-		(sched_feat(EAS_PREFER_IDLE) && 
+		(sched_feat(EAS_PREFER_IDLE) &&
 			!(schedtune_prefer_idle(p) > 0 && !sync))) {
 		/*
 		 * If the sync flag is set but ignored, prefer to
@@ -7960,7 +7960,7 @@ static bool yield_to_task_fair(struct rq *rq, struct task_struct *p, bool preemp
  *
  * The adjacency matrix of the resulting graph is given by:
  *
- *             log_2 n     
+ *             log_2 n
  *   A_i,j = \Union     (i % 2^k == 0) && i / 2^(k+1) == j / 2^(k+1)  (6)
  *             k = 0
  *
@@ -8006,7 +8006,7 @@ static bool yield_to_task_fair(struct rq *rq, struct task_struct *p, bool preemp
  *
  * [XXX write more on how we solve this.. _after_ merging pjt's patches that
  *      rewrite all of this once again.]
- */ 
+ */
 
 static unsigned long __read_mostly max_load_balance_interval = HZ/10;
 
@@ -8755,7 +8755,7 @@ void update_group_capacity(struct sched_domain *sd, int cpu)
 		/*
 		 * !SD_OVERLAP domains can assume that child groups
 		 * span the current group.
-		 */ 
+		 */
 
 		group = child->groups;
 		do {
