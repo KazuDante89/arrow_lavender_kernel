@@ -7889,11 +7889,13 @@ static int tasha_rx_hph_mode_put(struct snd_kcontrol *kcontrol,
 	dev_dbg(codec->dev, "%s: mode: %d\n",
 		__func__, mode_val);
 
-	if (mode_val == 0) {
-		dev_warn(codec->dev, "%s:Invalid HPH Mode, default to Cls-H HiFi\n",
+	/* Set to CLS_AB unless CLS_H_LP is set for calls */
+	if (tasha->hph_mode != CLS_H_LP) {
+		dev_dbg(codec->dev, "%s:Override HPH Mode, set to Cls-AB\n",
 			__func__);
-		mode_val = CLS_H_HIFI;
+		mode_val = CLS_AB;
 	}
+
 	tasha->hph_mode = mode_val;
 	return 0;
 }
@@ -13608,8 +13610,8 @@ static int tasha_codec_probe(struct snd_soc_codec *codec)
 	}
 	/* Class-H Init*/
 	wcd_clsh_init(&tasha->clsh_d);
-	/* Default HPH Mode to Class-H HiFi */
-	tasha->hph_mode = CLS_H_HIFI;
+	/* Default HPH Mode to Class-AB */
+	tasha->hph_mode = CLS_AB;
 
 	tasha->codec = codec;
 	for (i = 0; i < COMPANDER_MAX; i++)
@@ -14388,6 +14390,18 @@ static int tasha_probe(struct platform_device *pdev)
 	tasha_update_reg_defaults(tasha);
 	schedule_work(&tasha->tasha_add_child_devices_work);
 	tasha_get_codec_ver(tasha);
+
+#ifdef CONFIG_SOUND_CONTROL
+	sound_control_kobj = kobject_create_and_add("sound_control", kernel_kobj);
+	if (sound_control_kobj == NULL) {
+		pr_warn("%s kobject create failed!\n", __func__);
+	}
+
+	ret = sysfs_create_group(sound_control_kobj, &sound_control_attr_group);
+        if (ret) {
+		pr_warn("%s sysfs file create failed!\n", __func__);
+	}
+#endif
 
 	dev_info(&pdev->dev, "%s: Tasha driver probe done\n", __func__);
 	return ret;
