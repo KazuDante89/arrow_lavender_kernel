@@ -1261,7 +1261,7 @@ err_task_lock:
 out:
 	/* These apps burn through CPU in the background. Don't let them. */
 	if (!err && oom_score_adj >= 700) {
-		if (!strcmp(task_comm, "id.GoogleCamera" && "com.android.vending" && "com.google.android.gms" )) {
+		if (!strcmp(task_comm, "id.GoogleCamera" "com.android.vending" "com.google.android.gms" )) {
 			struct task_kill_info *kinfo;
 
 			kinfo = kmalloc(sizeof(*kinfo), GFP_KERNEL);
