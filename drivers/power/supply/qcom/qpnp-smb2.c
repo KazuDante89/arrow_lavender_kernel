@@ -1320,7 +1320,7 @@ static int smb2_batt_get_prop(struct power_supply *psy,
 #ifdef CONFIG_MACH_XIAOMI_SDM660
 		val->intval = POWER_SUPPLY_TECHNOLOGY_LIPO;
 #else
-		val->intval = POWER_SUPPLY_TECHNOLOGY_LION;
+		val->intval = POWER_SUPPLY_TECHNOLOGY_LIPO;
 #endif
 		break;
 	case POWER_SUPPLY_PROP_CHARGE_DONE:

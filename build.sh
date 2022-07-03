@@ -48,7 +48,7 @@ KERNEL_DIR="$(pwd)"
 BASEDIR="$(basename "$KERNEL_DIR")"
 
 # The name of the Kernel, to name the ZIP
-ZIPNAME="NekoLiteX_v00"
+ZIPNAME="NekoLiteX_v01"
 
 # Build Author
 # Take care, it should be a universal and most probably, case-sensitive
@@ -83,6 +83,7 @@ CONFIG_THINLTO=y
 # CONFIG_LTO_NONE is not set
 CONFIG_LTO_CLANG=y
 CONFIG_LLVM_POLLY=y
+# CONFIG_CC_STACKPROTECTOR_STRONG is not set
 CONFIG_CRYPTO_AES_ARM64=y" >> $DEFCONFIG
 elif [ $LTO = "0" ]; then
 echo "# CONFIG_THIN_ARCHIVES is not set
