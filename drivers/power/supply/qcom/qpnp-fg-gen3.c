@@ -836,7 +836,7 @@ static int fg_get_msoc_raw(struct fg_chip *chip, int *val)
 #define FULL_CAPACITY	100
 #define FULL_SOC_RAW	255
 #if defined(CONFIG_MACH_XIAOMI_LAVENDER) || defined(CONFIG_MACH_XIAOMI_WAYNE) || defined(CONFIG_MACH_MI)
-#define FULL_SOC_REPORT_THR 250
+#define FULL_SOC_REPORT_THR 230
 #endif
 static int fg_get_msoc(struct fg_chip *chip, int *msoc)
 {
@@ -1141,7 +1141,7 @@ static int fg_get_batt_profile(struct fg_chip *chip)
 
 #ifdef CONFIG_MACH_LONGCHEER
 	if (hwc_check_global)
-		chip->bp.fastchg_curr_ma = 2300;
+		chip->bp.fastchg_curr_ma = 2900;
 #ifdef CONFIG_MACH_XIAOMI_TULIP
 	else
 		if (is_poweroff_charge) {
