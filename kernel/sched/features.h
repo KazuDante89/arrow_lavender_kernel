@@ -3,7 +3,7 @@
  * them to run sooner, but does not allow tons of sleepers to
  * rip the spread apart.
  */
-SCHED_FEAT(GENTLE_FAIR_SLEEPERS, true)
+SCHED_FEAT(GENTLE_FAIR_SLEEPERS, false)
 
 /*
  * Place new tasks ahead so that they do not starve already running
@@ -82,7 +82,7 @@ SCHED_FEAT(UTIL_EST_FASTUP, true)
 #ifdef CONFIG_DEFAULT_USE_ENERGY_AWARE
 SCHED_FEAT(ENERGY_AWARE, true)
 #else
-SCHED_FEAT(ENERGY_AWARE, false)
+SCHED_FEAT(ENERGY_AWARE, true)
 #endif
 
 /*
@@ -100,7 +100,7 @@ SCHED_FEAT(MIN_CAPACITY_CAPPING, false)
  *   the EAS path for wakeup task placement. Otherwise, put
  *   those tasks through the mainline slow path.
  */
-SCHED_FEAT(EAS_PREFER_IDLE, true)
+SCHED_FEAT(EAS_PREFER_IDLE, false)
 
 /*
  * Enforce the priority of candidates selected by find_best_target()
