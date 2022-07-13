@@ -10,7 +10,7 @@
 #include <math.h>
 #include <stdio.h>
 
-#define HALFLIFE { 32, 16, 8 }
+#define HALFLIFE { 32, 30, 28, 26, 24, 22, 20, 18, 16, 14, 12, 10, 8 }
 #define SHIFT 32
 
 double y;
