@@ -48,7 +48,7 @@ KERNEL_DIR="$(pwd)"
 BASEDIR="$(basename "$KERNEL_DIR")"
 
 # The name of the Kernel, to name the ZIP
-ZIPNAME="Neuron_FBR_v01"
+ZIPNAME="NeuronR1_v00"
 
 # Build Author
 # Take care, it should be a universal and most probably, case-sensitive
