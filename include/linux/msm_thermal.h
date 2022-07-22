@@ -340,6 +340,7 @@ static inline void devmgr_unregister_mitigation_client(
 					struct device_clnt_data *clnt)
 {
 }
+#endif
 
 extern int msm_lmh_dcvsh_sw_notify(int cpu);
 
