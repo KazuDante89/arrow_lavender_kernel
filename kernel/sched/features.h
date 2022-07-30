@@ -3,7 +3,7 @@
  * them to run sooner, but does not allow tons of sleepers to
  * rip the spread apart.
  */
-SCHED_FEAT(GENTLE_FAIR_SLEEPERS, true)
+SCHED_FEAT(GENTLE_FAIR_SLEEPERS, false)
 
 /*
  * Place new tasks ahead so that they do not starve already running
@@ -76,7 +76,7 @@ SCHED_FEAT(ATTACH_AGE_LOAD, true)
 #ifdef CONFIG_DEFAULT_USE_ENERGY_AWARE
 SCHED_FEAT(ENERGY_AWARE, true)
 #else
-SCHED_FEAT(ENERGY_AWARE, false)
+SCHED_FEAT(ENERGY_AWARE, true)
 #endif
 
 /*
