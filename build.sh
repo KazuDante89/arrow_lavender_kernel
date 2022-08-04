@@ -122,16 +122,6 @@ DEF_REG=0
 # Files/artifacts
 FILES=Image.gz-dtb
 
-# Build dtbo.img (select this only if your source has support to building dtbo.img)
-# 1 is YES | 0 is NO(default)
-BUILD_DTBO=0
-	if [ $BUILD_DTBO = 1 ]
-	then
-		# Set this to your dtbo path.
-		# Defaults in folder out/arch/arm64/boot/dts
-		DTBO_PATH="xiaomi/violet-sm6150-overlay.dtbo"
-	fi
-
 # Sign the zipfile
 # 1 is YES | 0 is NO
 SIGN=0
@@ -155,7 +145,7 @@ VERBOSE=1
 
 # Debug purpose. Send logs on every successfull builds
 # 1 is YES | 0 is NO(default)
-LOG_DEBUG=1
+LOG_DEBUG=0
 
 ##------------------------------------------------------##
 ##---------Do Not Touch Anything Beyond This------------##
@@ -397,11 +387,24 @@ gen_zip() {
 	then
 		mv "$KERNEL_DIR"/out/arch/arm64/boot/dtbo.img AnyKernel3/dtbo.img
 	fi
-  cdir AnyKernel3
+	cdir AnyKernel3
 	zip -r $ZIPNAME-$DEVICE-"$DATE" . -x ".git*" -x "README.md" -x "*.zip"
 
-  ## Prepare a final zip variable
+	## Prepare a final zip variable
 	ZIP_FINAL="$ZIPNAME-$DEVICE-$DATE"
+
+	if [ $SIGN = 1 ]
+	then
+		## Sign the zip before sending it to telegram
+		if [ "$PTTG" = 1 ]
+ 		then
+ 			msg "|| Signing Zip ||"
+			tg_post_msg "<code>Signing Zip file with AOSP keys..</code>"
+ 		fi
+		curl -sLo zipsigner-3.0.jar https://github.com/Magisk-Modules-Repo/zipsigner/raw/master/bin/zipsigner-3.0-dexed.jar
+		java -jar zipsigner-3.0.jar "$ZIP_FINAL".zip "$ZIP_FINAL"-signed.zip
+		ZIP_FINAL="$ZIP_FINAL-signed"
+	fi
 
 	if [ "$PTTG" = 1 ]
  	then
