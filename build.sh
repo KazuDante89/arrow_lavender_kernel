@@ -197,8 +197,8 @@ COMMIT_HEAD=$(git log --oneline -1)
 	if [ $COMPILER = "gcc" ]
 	then
 		msg "|| Cloning GCC 9.3.0 baremetal ||"
-		git clone --depth=1 https://github.com/mvaisakh/gcc-arm64.git gcc64
-		git clone --depth=1 https://github.com/arter97/arm32-gcc.git gcc32
+		git clone --depth=1 https://github.com/KenHV/gcc-arm64.git -b master gcc64
+		git clone --depth=1 https://github.com/KenHV/gcc-arm.git -b master gcc32
 		GCC64_DIR=$KERNEL_DIR/gcc64
 		GCC32_DIR=$KERNEL_DIR/gcc32
 	fi
@@ -206,7 +206,7 @@ COMMIT_HEAD=$(git log --oneline -1)
 	if [ $COMPILER = "clang" ]
 	then
     msg "|| Cloning Azure Clang ||"
-		git clone --depth=1 https://gitlab.com/Panchajanya1999/azure-clang.git clang-llvm
+		git clone --depth=1 https://gitlab.com/dakkshesh07/neutron-clang.git -b Neutron-16 clang-llvm
 		# Toolchain Directory defaults to clang-llvm
 		TC_DIR=$KERNEL_DIR/clang-llvm
 	fi
