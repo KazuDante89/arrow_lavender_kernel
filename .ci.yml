@@ -11,7 +11,7 @@ steps:
     environment:
       TOKEN:
         from_secret: token
-    image: panchajanya1999/archlinux:latest
+    image: fadlyas/kernel_dockerfile
     name: Azure-Images
     trigger:
       branch:
