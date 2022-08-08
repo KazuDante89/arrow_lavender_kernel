@@ -11,8 +11,8 @@ steps:
     environment:
       TOKEN:
         from_secret: token
-    image: fadlyas/kernel_dockerfile
-    name: Azure-Images
+    image: panchajanya1999/archlinux:latest
+    name:
     trigger:
       branch:
         - Pelt_Lab3
