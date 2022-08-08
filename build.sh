@@ -205,14 +205,14 @@ COMMIT_HEAD=$(git log --oneline -1)
 
 	if [ $COMPILER = "clang" ]
 	then
-    msg "|| Cloning Azure Clang ||"
-		git clone --depth=1 https://gitlab.com/dakkshesh07/neutron-clang.git clang-llvm
+    msg "|| Cloning Neutron Clang 16 ||"
+		git clone --depth=1 https://gitlab.com/dakkshesh07/neutron-clang clang-llvm
 		# Toolchain Directory defaults to clang-llvm
 		TC_DIR=$KERNEL_DIR/clang-llvm
 	fi
 
 	msg "|| Cloning Anykernel ||"
-	git clone --depth 1 https://github.com/KazuDante89/AnyKernel3.git
+	git clone --depth 1 https://github.com/L1sa-f/AnyKernel3.git
 
 	if [ $BUILD_DTBO = 1 ]
 	then
