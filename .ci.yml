@@ -12,7 +12,7 @@ steps:
       TOKEN:
         from_secret: token
     image: panchajanya1999/archlinux:latest
-    name:
+    name: Azure-Images
     trigger:
       branch:
         - Pelt_Lab3
